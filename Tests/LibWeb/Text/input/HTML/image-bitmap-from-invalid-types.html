@@ -1,0 +1,44 @@
+<script src="../include.js"></script>
+<script>
+    let canvas = document.createElement("canvas");
+
+    canvas.width = 20;
+    canvas.height = 20;
+
+    let ctx = canvas.getContext("2d");
+    ctx.fillStyle = "rgb(255, 0, 0)";
+    ctx.fillRect(0, 0, 10, 10);
+
+    let imageData = ctx.getImageData(0, 0, 20, 20);
+
+    let img = document.createElement("img");
+
+    let svgImg = document.createElement("img");
+    svgImg = document.createElementNS("http://www.w3.org/2000/svg", "image");
+
+    let v = document.createElement("video");
+    let imageBitmap = createImageBitmap(v, 0, 0, 0, 0);
+
+    const types = [
+        [imageData, "ImageData"],
+        [img, "HTMLImageElement"],
+        [svgImg, "SVGImageElement"],
+        [canvas, "HTMLCanvasElement"],
+        [imageBitmap, "ImageBitmap"],
+    ];
+
+    for (const [type, name] of types) {
+        asyncTest(done => {
+            print(`${name}: `);
+            createImageBitmap(type, 0, 0, 0, 0)
+                .catch(err => {
+                    println(`Error: ${err}`);
+                    done();
+                })
+                .then(result => {
+                    println(result);
+                    done();
+                });
+        });
+    }
+</script>

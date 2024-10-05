@@ -266,6 +266,7 @@ JS::NonnullGCPtr<JS::Promise> WindowOrWorkerGlobalScopeMixin::create_image_bitma
             dbgln("(STUBBED) createImageBitmap() for other then the blob or video types");
             (void)sx;
             (void)sy;
+            p->reject(JS::Error::create(relevant_realm(*p), "Not Implemented: createImageBitmap() for other then the blob or video types"sv));
         });
 
     // 7. Return p.
