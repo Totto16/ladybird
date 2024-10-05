@@ -1,8 +1,9 @@
 #import <HTML/HTMLCanvasElement.idl>
 #import <HTML/HTMLImageElement.idl>
 #import <HTML/HTMLVideoElement.idl>
-#import <HTML/ImageBitmap.idl>
+#import <HTML/HTMLElement.idl>
 #import <SVG/SVGImageElement.idl>
+#import <HTML/ImageBitmap.idl>
 
 typedef (HTMLImageElement or
          SVGImageElement or

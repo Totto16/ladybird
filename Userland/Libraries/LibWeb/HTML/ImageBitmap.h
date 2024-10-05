@@ -13,6 +13,7 @@
 #include <LibWeb/Bindings/Transferable.h>
 #include <LibWeb/Forward.h>
 #include <LibWeb/HTML/Canvas/CanvasDrawImage.h>
+#include <LibWeb/SVG/SVGImageElement.h>
 
 namespace Web::HTML {
 

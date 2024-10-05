@@ -15,6 +15,7 @@
 #import <HTML/Canvas/CanvasText.idl>
 #import <HTML/Canvas/CanvasTransform.idl>
 #import <HTML/Canvas/CanvasUserInterface.idl>
+#import <HTML/HTMLElement.idl>
 
 enum PredefinedColorSpace { "srgb", "display-p3" };
 
