@@ -241,8 +241,29 @@ JS::NonnullGCPtr<JS::Promise> WindowOrWorkerGlobalScopeMixin::create_image_bitma
                 (void)Web::Platform::ImageCodecPlugin::the().decode_image(image_data, move(on_successful_decode), move(on_failed_decode));
             });
         },
+        [&](JS::Handle<HTMLVideoElement>& video) {
+            // 1. If image's networkState attribute is NETWORK_EMPTY, then return a promise rejected with an "InvalidStateError" DOMException.
+            if (video->network_state() == HTMLMediaElement::NetworkState::Empty) {
+                p->reject(WebIDL::InvalidStateError::create(relevant_realm(*p), "video was not loaded correctly"_string));
+                return;
+            }
+
+            // 2. Set imageBitmap's bitmap data to a copy of the frame at the current playback position, at the media resource's natural width and natural height (i.e., after any aspect-ratio correction has been applied), cropped to the source rectangle with formatting.
+            image_bitmap->set_bitmap(video->bitmap());
+
+            // 3.If image is not origin-clean, then set the origin-clean flag of imageBitmap's bitmap to false.
+            if (image_is_not_origin_clean(video)) {
+                // FIXME: This flags isn't implemented yet
+            }
+
+            // 4. Run this step in parallel:
+            Platform::EventLoopPlugin::the().deferred_invoke([=]() {
+                // 1. Resolve p with imageBitmap.
+                p->fulfill(image_bitmap);
+            });
+        },
         [&](auto&) {
-            dbgln("(STUBBED) createImageBitmap() for non-blob types");
+            dbgln("(STUBBED) createImageBitmap() for other then the blob or video types");
             (void)sx;
             (void)sy;
         });

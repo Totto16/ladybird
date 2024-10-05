@@ -1,0 +1,15 @@
+<script src="../include.js"></script>
+<script>
+    asyncTest(done => {
+        let v = document.createElement("video");
+        createImageBitmap(v, 0, 0, 0, 0)
+            .catch(err => {
+                println(`Error: ${err}`);
+                done();
+            })
+            .then(result => {
+                println(result);
+                done();
+            });
+    });
+</script>
