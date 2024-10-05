@@ -1,0 +1,16 @@
+#import <HTML/HTMLCanvasElement.idl>
+#import <HTML/HTMLImageElement.idl>
+#import <HTML/HTMLVideoElement.idl>
+#import <HTML/ImageBitmap.idl>
+#import <SVG/SVGImageElement.idl>
+
+// https://html.spec.whatwg.org/multipage/canvas.html#canvasimagesource
+typedef (HTMLImageElement or
+         SVGImageElement or
+// FIXME: We should use HTMLOrSVGImageElement instead of HTMLImageElement
+         HTMLVideoElement or
+         HTMLCanvasElement or
+         ImageBitmap
+// FIXME: OffscreenCanvas
+// FIXME: VideoFrame
+         ) CanvasImageSource;

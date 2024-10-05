@@ -16,8 +16,6 @@
 
 namespace Web::HTML {
 
-using ImageBitmapSource = Variant<CanvasImageSource, JS::Handle<FileAPI::Blob>, JS::Handle<ImageData>>;
-
 // https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmapoptions
 struct ImageBitmapOptions {
     // FIXME: Implement these fields

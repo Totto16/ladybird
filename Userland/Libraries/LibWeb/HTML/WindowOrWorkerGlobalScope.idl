@@ -2,6 +2,7 @@
 #import <Fetch/Request.idl>
 #import <Fetch/Response.idl>
 #import <HighResolutionTime/Performance.idl>
+#import <HTML/ImageBitmapSource.idl>
 #import <HTML/ImageBitmap.idl>
 #import <HTML/MessagePort.idl>
 #import <IndexedDB/IDBFactory.idl>

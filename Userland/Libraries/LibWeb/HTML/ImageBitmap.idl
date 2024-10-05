@@ -9,10 +9,6 @@ interface ImageBitmap {
     undefined close();
 };
 
-// FIXME: This should also includes CanvasImageSource
-typedef (Blob or
-         ImageData) ImageBitmapSource;
-
 enum ImageOrientation { "from-image", "flipY" };
 enum PremultiplyAlpha { "none", "premultiply", "default" };
 enum ColorSpaceConversion { "none", "default" };

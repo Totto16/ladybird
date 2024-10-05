@@ -1,0 +1,8 @@
+#import <FileAPI/Blob.idl>
+#import <HTML/Canvas/CanvasImageSource.idl>
+#import <HTML/ImageData.idl>
+
+// https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#imagebitmapsource
+typedef (CanvasImageSource or
+         Blob or
+         ImageData) ImageBitmapSource;
