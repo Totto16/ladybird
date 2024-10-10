@@ -255,11 +255,63 @@ JS::NonnullGCPtr<JS::Promise> WindowOrWorkerGlobalScopeMixin::create_image_bitma
                 (void)Web::Platform::ImageCodecPlugin::the().decode_image(image_data, move(on_successful_decode), move(on_failed_decode));
             });
         },
-        [&](auto&) {
-            dbgln("(STUBBED) createImageBitmap() for non-blob types");
+        [&](JS::Handle<ImageData>&) {
+            // FIXME: Implement this for ImageData
+            dbgln("(STUBBED) createImageBitmap() for ImageData");
             (void)sx;
             (void)sy;
-            p->reject(JS::Error::create(relevant_realm(*p), "Not Implemented: createImageBitmap() for non-blob types"sv));
+            p->reject(JS::Error::create(relevant_realm(*p), "Not Implemented: createImageBitmap() for ImageData"sv));
+        },
+        [&](JS::Handle<HTMLVideoElement>& video) {
+            // 1. If image's networkState attribute is NETWORK_EMPTY, then return a promise rejected with an "InvalidStateError" DOMException.
+            // FIXME: adhere to the spec. and !video->bitmap() is not in there, as it should always have one, when it's ready state suggests so,
+            // but at the moment it may be NULL even if the state is not NETWORK_EMPTY
+            if (video->network_state() == HTMLMediaElement::NetworkState::Empty || !video->bitmap()) {
+                p->reject(WebIDL::InvalidStateError::create(relevant_realm(*p), "video was not loaded correctly"_string));
+                return;
+            }
+
+            // 2. Set imageBitmap's bitmap data to a copy of the frame at the current playback position, at the media resource's natural width and natural height (i.e., after any aspect-ratio correction has been applied), cropped to the source rectangle with formatting.
+            image_bitmap->set_bitmap(video->bitmap());
+
+            // 3.If image is not origin-clean, then set the origin-clean flag of imageBitmap's bitmap to false.
+            if (image_is_not_origin_clean(video)) {
+                // FIXME: This flag isn't implemented yet
+            }
+
+            // 4. Run this step in parallel:
+            Platform::EventLoopPlugin::the().deferred_invoke([=]() {
+                // 1. Resolve p with imageBitmap.
+                p->fulfill(image_bitmap);
+            });
+        },
+        [&](JS::Handle<HTMLImageElement>&) {
+            // FIXME: Implement this for HTMLImageElement
+            dbgln("(STUBBED) createImageBitmap() for HTMLImageElement");
+            (void)sx;
+            (void)sy;
+            p->reject(JS::Error::create(relevant_realm(*p), "Not Implemented: createImageBitmap() for HTMLImageElement"sv));
+        },
+        [&](JS::Handle<SVG::SVGImageElement>&) {
+            // FIXME: Implement this for SVGImageElement
+            dbgln("(STUBBED) createImageBitmap() for SVGImageElement");
+            (void)sx;
+            (void)sy;
+            p->reject(JS::Error::create(relevant_realm(*p), "Not Implemented: createImageBitmap() for SVGImageElement"sv));
+        },
+        [&](JS::Handle<HTMLCanvasElement>&) {
+            // FIXME: Implement this for HTMLCanvasElement
+            dbgln("(STUBBED) createImageBitmap() for HTMLCanvasElement");
+            (void)sx;
+            (void)sy;
+            p->reject(JS::Error::create(relevant_realm(*p), "Not Implemented: createImageBitmap() for HTMLCanvasElement"sv));
+        },
+        [&](JS::Handle<ImageBitmap>&) {
+            // FIXME: Implement this for ImageBitmap
+            dbgln("(STUBBED) createImageBitmap() for ImageBitmap");
+            (void)sx;
+            (void)sy;
+            p->reject(JS::Error::create(relevant_realm(*p), "Not Implemented: createImageBitmap() for ImageBitmap"sv));
         });
 
     // 7. Return p.

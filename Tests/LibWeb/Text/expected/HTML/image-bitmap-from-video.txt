@@ -1,0 +1,2 @@
+First error: InvalidStateError: image argument is not usable
+Second result: [object ImageBitmap]

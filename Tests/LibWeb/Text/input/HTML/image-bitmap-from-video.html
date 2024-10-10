@@ -1,0 +1,33 @@
+<video id="vid" width="640" height="480" src="file:///home/totto/Downloads/p4/Lucifer_NCIS[S06E01].mp4"></video>
+<script src="../include.js"></script>
+<script>
+    asyncTest(async done => {
+        try {
+            const v = document.createElement("video");
+            const result = await createImageBitmap(v, 0, 0, 20, 20);
+            println(`First result: ${result}`);
+        } catch (err) {
+            println(`First error: ${err}`);
+        }
+
+        try {
+            const v = document.getElementById("vid");
+            await new Promise(resolve => {
+                if (v.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+                    resolve();
+                }
+                v.addEventListener("loadeddata", () => {
+                    if (v.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+                        resolve();
+                    }
+                });
+            });
+            const result = await createImageBitmap(v, 0, 0, 20, 20);
+            println(`Second result: ${result}`);
+        } catch (err) {
+            println(`Second error: ${err}`);
+        }
+
+        done();
+    });
+</script>
