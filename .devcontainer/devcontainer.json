@@ -7,24 +7,6 @@
         "ghcr.io/devcontainers-contrib/features/pre-commit:2": {},
         "./features/ladybird": {
             "llvm_version": 18,
-        },
-        "ghcr.io/devcontainers/features/desktop-lite": {
-            "password": "vscode",
-            "webPort": "6080",
-            "vncPort": "5901"
-        }
-    },
-    // Use 'forwardPorts' to make a list of ports inside the container available locally.
-    "forwardPorts": [
-        6080,
-        5901
-    ],
-    "portsAttributes": {
-        "5901": {
-            "label": "VNC"
-        },
-        "6080": {
-            "label": "Web VNC"
         }
     },
     // Use 'postCreateCommand' to run commands after the container is created.
@@ -72,7 +54,25 @@
                 ]
             }
         }
-    }
+    },
+    // set docker specific run arguments
+    "runArgs": [
+        "--net=host"
+    ],
+    // set environment variables, that are goinf to to be passed to the container
+    "containerEnv": {
+        "DISPLAY": "${localEnv:DISPLAY}",
+        "XAUTHORITY": "${localEnv:XAUTHORITY}",
+        "QT_QPA_PLATFORM": "xcb"
+    },
+    "mounts": [
+        {
+            "source": "/tmp/.X11-unix",
+            "target": "/tmp/.X11-unix:rw",
+            "type": "bind"
+        }
+    ]
+
     // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
     // "remoteUser": "root",
 }
